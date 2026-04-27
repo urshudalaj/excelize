@@ -17,3 +17,7 @@ require (
 require (
 	golang.org/x/sys v0.5.0 // indirect
 )
+
+// Personal fork for learning purposes.
+// Tracking upstream: https://github.com/qax-os/excelize
+// Last synced with upstream: 2023-02-01
