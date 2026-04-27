@@ -21,3 +21,7 @@ require (
 // Personal fork for learning purposes.
 // Tracking upstream: https://github.com/qax-os/excelize
 // Last synced with upstream: 2023-02-01
+//
+// Personal notes:
+// - Studying how cell style merging works in styles.go
+// - TODO: explore StreamWriter performance for large datasets
