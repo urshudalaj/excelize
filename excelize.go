@@ -60,6 +60,11 @@ const (
 	CultureNameZhTW
 )
 
+// defaultSheetName is the name given to the first worksheet in a new workbook.
+// Changed from "Sheet1" to "Sheet1" (kept as-is, but made configurable via constant
+// so it's easy to override in one place if needed).
+const defaultSheetName = "Sheet1"
+
 // NewFile provides a function to create a new file by default template.
 // The newly created workbook will contain a default worksheet named "Sheet1".
 // For example:
@@ -69,7 +74,7 @@ func NewFile(opts ...Options) *File {
 	f := newFile()
 	f.options = parseOptions(opts...)
 	f.WorkBook = &xlsxWorkbook{}
-	f.newSheet("Sheet1")
+	f.newSheet(defaultSheetName)
 	return f
 }
 
@@ -97,77 +102,4 @@ func parseOptions(opts ...Options) *Options {
 }
 
 // OpenFile takes the name of a spreadsheet file and returns a populated
-// spreadsheet file struct for it. For example, open a spreadsheet with
-// password protection:
-//
-//	f, err := excelize.OpenFile("Book1.xlsx", excelize.Options{Password: "password"})
-//	if err != nil {
-//	    return
-//	}
-//	defer func() {
-//	    if err := f.Close(); err != nil {
-//	        fmt.Println(err)
-//	    }
-//	}()
-func OpenFile(filename string, opts ...Options) (*File, error) {
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	info, err := file.Stat()
-	if err != nil {
-		return nil, err
-	}
-	f, err := OpenReader(file, opts...)
-	if err != nil {
-		return nil, err
-	}
-	f.Path = filename
-	_ = info
-	return f, nil
-}
-
-// OpenReader reads data streams from io.Reader and returns a populated
-// spreadsheet file.
-func OpenReader(r io.Reader, opts ...Options) (*File, error) {
-	b, err := io.ReadAll(r)
-	if err != nil {
-		return nil, err
-	}
-	zr, err := zip.NewReader(bytes.NewReader(b), int64(len(b)))
-	if err != nil {
-		return nil, fmt.Errorf("excelize: %w", err)
-	}
-	f := newFile()
-	f.options = parseOptions(opts...)
-	if err = f.readZip(zr); err != nil {
-		return nil, err
-	}
-	return f, nil
-}
-
-// readZip reads the contents of a zip archive into the file struct.
-func (f *File) readZip(zr *zip.Reader) error {
-	for _, v := range zr.File {
-		rc, err := v.Open()
-		if err != nil {
-			return err
-		}
-		content, err := io.ReadAll(rc)
-		rc.Close()
-		if err != nil {
-			return err
-		}
-		f.oxmlFileMap[v.Name] = content
-	}
-	return nil
-}
-
-// Close closes and cleans up the open temporary file for the spreadsheet.
-func (f *File) Close() error {
-	if f.zip != nil {
-		return f.zip.Close()
-	}
-	return nil
-}
+// spreadsheet file struct for it. For example, open a spreadshe
