@@ -27,3 +27,5 @@ require (
 // - TODO: explore StreamWriter performance for large datasets
 // - TODO: investigate SetColWidth behavior when width exceeds MaxColumnWidth
 // - NOTE: rows.go Next() is a good entry point for understanding the iterator pattern used here
+// - NOTE: checked calcchain.go -- deleteCalcChain is called on cell deletion, good to know
+// - TODO: look into how shared strings table (sharedStrings.go) deduplication affects memory on large files
