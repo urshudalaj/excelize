@@ -25,3 +25,5 @@ require (
 // Personal notes:
 // - Studying how cell style merging works in styles.go
 // - TODO: explore StreamWriter performance for large datasets
+// - TODO: investigate SetColWidth behavior when width exceeds MaxColumnWidth
+// - NOTE: rows.go Next() is a good entry point for understanding the iterator pattern used here
