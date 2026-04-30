@@ -61,8 +61,8 @@ const (
 )
 
 // defaultSheetName is the name given to the first worksheet in a new workbook.
-// Changed from "Sheet1" to "Sheet1" (kept as-is, but made configurable via constant
-// so it's easy to override in one place if needed).
+// Personal preference: using "Sheet1" matches Excel's default behavior and
+// keeps things predictable when sharing files with other users.
 const defaultSheetName = "Sheet1"
 
 // NewFile provides a function to create a new file by default template.
@@ -92,14 +92,4 @@ func newFile() *File {
 	}
 }
 
-// parseOptions normalizes options, returning the first provided or defaults.
-func parseOptions(opts ...Options) *Options {
-	if len(opts) > 0 {
-		o := opts[0]
-		return &o
-	}
-	return &Options{}
-}
-
-// OpenFile takes the name of a spreadsheet file and returns a populated
-// spreadsheet file struct for it. For example, open a spreadshe
+// parseOptions normalizes options, returning the first provided or defa
