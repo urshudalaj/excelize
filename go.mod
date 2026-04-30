@@ -29,3 +29,5 @@ require (
 // - NOTE: rows.go Next() is a good entry point for understanding the iterator pattern used here
 // - NOTE: checked calcchain.go -- deleteCalcChain is called on cell deletion, good to know
 // - TODO: look into how shared strings table (sharedStrings.go) deduplication affects memory on large files
+// - NOTE: sharedStrings.go uses a map[string]int for dedup; for very large files this can grow significantly
+//         in memory -- worth benchmarking with and without shared strings on a 100k+ row file
