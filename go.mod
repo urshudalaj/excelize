@@ -34,3 +34,6 @@ require (
 // - NOTE: benchmarked shared strings on a 150k row file (1 string col): with=~95MB heap, without=~210MB heap
 //         so shared strings dedup is clearly worth it for repeated string values; unique strings are worse
 // - TODO: look into whether StreamWriter flushes shared strings incrementally or all at end of sheet
+// - NOTE: confirmed StreamWriter does NOT flush shared strings incrementally -- they are held in memory
+//         until Flush() is called. For files with many unique strings this is a potential memory concern.
+//         Possible mitigation: pre-sort/deduplicate strings before writing, or use SetCellValue sparingly.
